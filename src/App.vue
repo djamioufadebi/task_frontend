@@ -1,9 +1,8 @@
 <template>
   <div>
-    <!-- Barre de navigation -->
 
     <header>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-secondary shadow">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow fw-bold text-uppercase">
         <div class="container-fluid">
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
@@ -76,15 +75,15 @@ header {
 }
 
 /* Meilleure apparence des boutons */
-/* .btn-outline-light:hover {
+ .btn-outline-light:hover {
   background-color: #fff;
   color: #333;
-} */
+} 
 
 /* Alignement du texte dans la navbar */
-/* .nav-link {
+ .nav-link {
   display: flex;
   align-items: center;
   gap: 5px;
-} */
+} 
 </style>
