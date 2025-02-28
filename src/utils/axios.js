@@ -1,11 +1,11 @@
 import axios from "axios";
 
-// Créer une instance Axios
+// Création de l'instance Axios
 const api = axios.create({
   baseURL: "http://127.0.0.1:8000/api",
 });
 
-// Ajouter un "interceptor" pour injecter le token à chaque requête
+// Ajout d'un "interceptor" pour injecter le token à chaque requête
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");

@@ -1,12 +1,43 @@
 <template>
-    <div class="container mt-2">
-        <h2>Mes Tâches</h2>
-        <button class="btn btn-success mb-3" @click="fetchTasks">
-            <i class="bi bi-arrow-clockwise"></i> Rafraîchir
-        </button>
+    <div class="container mt-3">
+        <h2>Gestion des Tâches</h2>
 
-        <table class="table table-bordered shadow-sm">
-            <thead class="table-light">
+        <!-- Formulaire de création -->
+        <form @submit.prevent="createTask" class="mb-4">
+            <div class="row">
+                <div class="col-md-4">
+                    <input v-model="newTask.title" class="form-control" placeholder="Titre de la tâche" required />
+                </div>
+                <div class="col-md-4">
+                    <input v-model="newTask.description" class="form-control" placeholder="Description" />
+                </div>
+                <div class="col-md-2">
+                    <select v-model="newTask.status" class="form-select">
+                        <option value="en attente">En attente</option>
+                        <option value="en cours">En cours</option>
+                        <option value="terminé">Terminé</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-primary w-100" type="submit">Ajouter</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Barre de recherche et filtre -->
+        <div class="mb-3 d-flex">
+            <input v-model="searchQuery" class="form-control me-2" placeholder="Rechercher par titre" />
+            <select v-model="statusFilter" class="form-select w-auto" @change="fetchTasks">
+                <option value="">Tous</option>
+                <option value="en attente">En attente</option>
+                <option value="en cours">En cours</option>
+                <option value="terminé">Terminé</option>
+            </select>
+        </div>
+
+        <!-- Liste des tâches -->
+        <table class="table table-bordered table-hover">
+            <thead>
                 <tr>
                     <th>Titre</th>
                     <th>Description</th>
@@ -15,168 +46,96 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="task in tasks" :key="task.id">
+                <tr v-for="task in filteredTasks" :key="task.id">
                     <td>{{ task.title }}</td>
                     <td>{{ task.description }}</td>
                     <td>
-                        <span :class="getStatusClass(task.status)">{{ task.status }}</span>
+                        <select v-model="task.status" class="form-select" @change="updateTask(task)">
+                            <option value="en attente">En attente</option>
+                            <option value="en cours">En cours</option>
+                            <option value="terminé">Terminé</option>
+                        </select>
                     </td>
                     <td>
-                        <button class="btn btn-warning btn-sm" @click="openEditModal(task)">
-                            <i class="bi bi-pencil-square"></i> Modifier
-                        </button>
-                        <button class="btn btn-danger btn-sm ms-2" @click="confirmDelete(task.id)">
-                            <i class="bi bi-trash"></i> Supprimer
-                        </button>
+                        <!-- <button class="btn btn-warning btn-sm" @click="openEditModal(task)">Modifier</button>
+                        <button class="btn btn-danger btn-sm ms-2" @click="deleteTask(task.id)">Supprimer</button> -->
+                        <!-- Dropdown Bootstrap -->
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle btn-sm" type="button"
+                                data-bs-toggle="dropdown">
+                                Actions
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" @click="viewTask(task)">Voir</a></li>
+                                <li><a class="dropdown-item" href="#" @click="openEditModal(task)">Modifier</a></li>
+                                <li><a class="dropdown-item text-danger" href="#" @click="confirmDelete(task.id)">🗑
+                                        Supprimer</a></li>
+                            </ul>
+                        </div>
                     </td>
                 </tr>
             </tbody>
         </table>
-
-        <!-- Modale de modification -->
-        <div class="modal fade" id="editTaskModal" tabindex="-1" aria-labelledby="editTaskLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editTaskLabel">Modifier la tâche</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form @submit.prevent="updateTask">
-                            <div class="mb-3">
-                                <label for="title" class="form-label">Titre</label>
-                                <input type="text" id="title" v-model="editedTask.title" class="form-control"
-                                    required />
-                            </div>
-                            <div class="mb-3">
-                                <label for="description" class="form-label">Description</label>
-                                <textarea id="description" v-model="editedTask.description"
-                                    class="form-control"></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label for="status" class="form-label">Statut</label>
-                                <select id="status" v-model="editedTask.status" class="form-select">
-                                    <option value="en attente">En attente</option>
-                                    <option value="en cours">En cours</option>
-                                    <option value="terminé">Terminé</option>
-                                </select>
-                            </div>
-                            <button type="submit" class="btn btn-primary w-100">Enregistrer</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modale de confirmation de suppression -->
-        <div class="modal fade" id="deleteTaskModal" tabindex="-1" aria-labelledby="deleteTaskLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteTaskLabel">Confirmer la suppression</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Êtes-vous sûr de vouloir supprimer cette tâche ?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                        <button type="button" class="btn btn-danger" @click="deleteTask">
-                            Supprimer
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
-import api from "../utils/axios"; 
-/* import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";  */
+import { ref, computed, onMounted } from "vue";
+import api from "../utils/axios";
+import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
+
 export default {
-    setup() {
-        const tasks = ref([]);
-        const editedTask = ref({ id: null, title: "", description: "", status: "en attente" });
-        const taskToDelete = ref(null);
 
-        // Récupérer les tâches
-        const fetchTasks = async () => {
-            try {
-                const response = await api.get("/tasks");
-                tasks.value = response.data;
-            } catch (error) {
-                console.error("Erreur lors du chargement des tâches :", error);
-            }
-        };
+  setup() {
+    const tasks = ref([]);
+    const newTask = ref({ title: "", description: "", status: "en attente" });
+    const searchQuery = ref("");
+    const statusFilter = ref("");
 
-        // Ouvrir la modale pour modifier une tâche
+    const fetchTasks = async () => {
+      try {
+        const response = await api.get("/tasks", { params: { search: searchQuery.value, status: statusFilter.value } });
+        tasks.value = response.data;
+      } catch (error) {
+        console.error("Erreur :", error);
+      }
+    };
+
+    //Creation de tache
+    const createTask = async () => {
+      await api.post("/tasks", newTask.value);
+      fetchTasks();
+      newTask.value = { title: "", description: "", status: "en attente" };
+    };
+
+        // Modifier une tâche
         const openEditModal = (task) => {
-            editedTask.value = { ...task };
-            new bootstrap.Modal(document.getElementById("editTaskModal")).show();
+            selectedTask.value = { ...task };
+            isEditing.value = true;
+            new bootstrap.Modal(document.getElementById("taskModal")).show();
         };
 
-        // Mettre à jour une tâche
-        const updateTask = async () => {
-            try {
-                await api.put(`/tasks/${editedTask.value.id}`, editedTask.value);
-                fetchTasks();
-                new bootstrap.Modal(document.getElementById("editTaskModal")).hide();
-            } catch (error) {
-                console.error("Erreur lors de la mise à jour :", error);
-            }
+        //Mise à jour de tache 
+        const updateTask = async (task) => {
+        await api.put(`/tasks/${task.id}`, task);
+        fetchTasks();
+        }; 
+
+        //Suppression de tache
+        const deleteTask = async (taskId) => {
+        if (confirm("Supprimer cette tâche ?")) {
+            await api.delete(`/tasks/${taskId}`);
+            fetchTasks();
+        }
         };
 
-        // Confirmer la suppression
-        const confirmDelete = (taskId) => {
-            taskToDelete.value = taskId;
-            new bootstrap.Modal(document.getElementById("deleteTaskModal")).show();
-        };
+    const filteredTasks = computed(() =>
+      tasks.value.filter((t) => t.title.toLowerCase().includes(searchQuery.value.toLowerCase()))
+    );
 
-        // Supprimer une tâche
-        const deleteTask = async () => {
-            try {
-                await api.delete(`/tasks/${taskToDelete.value}`);
-                fetchTasks();
-                new bootstrap.Modal(document.getElementById("deleteTaskModal")).hide();
-            } catch (error) {
-                console.error("Erreur lors de la suppression :", error);
-            }
-        };
+    onMounted(fetchTasks);
 
-        // Définir une classe de badge pour les statuts
-        const getStatusClass = (status) => {
-            return {
-                "badge bg-success": status === "terminé",
-                "badge bg-warning": status === "en cours",
-                "badge bg-danger": status === "en attente",
-            };
-        };
-
-        onMounted(fetchTasks);
-
-        return { tasks, fetchTasks, editedTask, openEditModal, updateTask, confirmDelete, deleteTask, getStatusClass };
-    },
+    return { tasks, newTask, searchQuery, statusFilter, fetchTasks, createTask, updateTask, deleteTask, filteredTasks };
+  },
 };
 </script>
-
-<style scoped>
-/* Personnalisation des cartes */
-.table {
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-/* Icônes Bootstrap 5 dans les boutons */
-.btn i {
-    margin-right: 5px;
-}
-
-/* Badges de statut */
-.badge {
-    font-size: 1rem;
-    padding: 5px 10px;
-}
-</style>

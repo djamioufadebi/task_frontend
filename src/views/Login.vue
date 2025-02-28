@@ -44,7 +44,7 @@ export default {
 </script> -->
 <template>
     <div class="d-flex justify-content-center align-items-center vh-100 bg-light">
-        <div class="card shadow-lg p-4 rounded" style="width: 400px;">
+        <div class="card shadow-lg p-2 rounded" style="width: 400px;">
             <div class="text-center">
                 <i class="bi bi-person-circle text-primary" style="font-size: 3rem;"></i>
                 <h3 class="mt-2">Connexion</h3>
@@ -68,17 +68,13 @@ export default {
                         placeholder="Entrez votre mot de passe" required />
                 </div>
 
-                
-
                 <button type="submit" class="btn btn-primary w-100 fw-bold">
                     <i class="bi bi-box-arrow-in-right"></i> Se connecter
                 </button>
+
             </form>
 
-            <!-- <div class="text-center mt-3">
-                <span>Pas encore inscrit ? </span>
-                <router-link to="/register" class="text-primary fw-bold">Créer un compte</router-link>
-            </div> -->
+           
         </div>
     </div>
 </template>

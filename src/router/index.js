@@ -3,23 +3,39 @@ import Login from '../views/Login.vue';
 import Dashboard from '../views/Dashboard.vue';
 import TaskList from '../views/TaskList.vue';
 import Register from '../views/Register.vue';
+import TaskCreate from '../views/TaskCreate.vue';
+import TaskUpdate from '../views/TaskUpdate.vue';
 
 const routes = [
 
   { path: '/', 
-    component: Login 
+   component: Login, 
+    name : "home"
   },
 
   { path: '/dashboard', 
-    component: Dashboard 
+    component: Dashboard,
+    name : "dashboard" 
   },
 
   { path: '/tasks', 
-    component: TaskList 
+    component: TaskList,
+    name : "tasks" 
+  },
+
+  { path: '/tasks-create', 
+    component: TaskCreate,
+    name : "task-create" 
+  },
+
+  { path: '/tasks-update', 
+    component: TaskUpdate,
+    name : "task-update" 
   },
 
   { path: '/register', 
-    component: Register 
+    component: Register,
+    name : "register"  
   },
 
 ];
