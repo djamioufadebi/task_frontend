@@ -64,6 +64,38 @@ Pour exécuter des tests, exécutez la commande suivante
 ```
 
 
+## Références API 
+
+#### Recupérer toutes les tâches
+
+```http
+  GET /api/tasks
+```
+| Paramètre | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `api_key` | `string` | **Required**. Votre Clé API |
+
+
+
+#### Pour récupérer une tâche donnée
+```http
+  GET /api/tasks/${id}
+```
+| Paramètre | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `string` | **Required**. Id de la tâche |
+
+
+
+#### Pour modifier une tâche donnée
+```http
+  PUT /api/tasks/${id}
+```
+| Paramètre | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `string` | **Required**. Id de la tâche |
+
+
 ## Feedback
 Si vous avez des commentaires, veuillez nous contacter sur djamioufadebi@gmail.com
 
