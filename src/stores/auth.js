@@ -41,7 +41,7 @@ export const useAuthStore = defineStore("auth", {
       delete api.defaults.headers.common["Authorization"];
 
       // Redirection après déconnexion
-      window.location.href = "/";
+      window.location.href = "/login";
     },
 
     isAuthenticated() {

@@ -1,6 +1,7 @@
 <template>
     <div class="container mt-4">
 
+        <!-- Titre du Tableau de Bord -->
         <h2 class="text-center mb-4">Tableau de Bord</h2>
 
         <!-- Gestion du chargement -->
@@ -17,8 +18,10 @@
 
         <!-- Statistiques des tâches -->
         <div v-else class="row">
-            <div class="col-md-4">
-                <div class="card text-white bg-success mb-3 shadow-sm">
+
+            <!-- Carte Tâches Terminées -->
+            <div class="col-md-4 mb-4">
+                <div class="card text-white bg-success shadow-sm">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
                             <h5 class="card-title">Tâches Terminées</h5>
@@ -28,8 +31,10 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card text-white bg-warning mb-3 shadow-sm">
+
+            <!-- Carte Tâches en Cours -->
+            <div class="col-md-4 mb-4">
+                <div class="card text-white bg-warning shadow-sm">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
                             <h5 class="card-title">Tâches en Cours</h5>
@@ -39,8 +44,10 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card text-white bg-danger mb-3 shadow-sm">
+
+            <!-- Carte Tâches en Attente -->
+            <div class="col-md-4 mb-4">
+                <div class="card text-white bg-danger shadow-sm">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
                             <h5 class="card-title">Tâches en Attente</h5>
@@ -89,19 +96,20 @@ export default {
 };
 </script>
 
+
+
+
 <style scoped>
-/* Styles des cartes */
-.card {
-    border-radius: 10px;
+/* Personnalisation du style */
+.card-body {
+    font-size: 18px;
 }
 
-/* Icônes Bootstrap 5 dans les cartes */
-.card-body i {
-    opacity: 0.8;
+.card-title {
+    font-weight: bold;
 }
 
-/* Ombre légère sur les cartes */
-.shadow-sm {
-    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+.fs-1 {
+    font-size: 2.5rem;
 }
 </style>
