@@ -1,29 +1,74 @@
-# task-manager-frontend1
 
-This template should help get you started developing with Vue 3 in Vite.
+# Projet de gestion de tâche
 
-## Recommended IDE Setup
+## Description 
+Il s'agit d'une application web de gestion de tâche permettant aux utilisateurs connectés de gérer leurs tâches.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Fonctionnalités
+L'utilisateurs authentifié peut :
+- créer, afficher, modifier et supprimer ses propres tâches.
+- Filtrer ses tâches par statut.
+- Rechercher une tâche par son titre.
+- Modifier le statut d’une tâche.
+- Consulter un tableau de bord avec des statistiques sur ses tâches (nombre total et
+répartition par statut).
 
-## Customize configuration
+### Prérequis
+  Avant de commencer, assurez-vous que les éléments suivants sont installés sur votre machine :
+- Node.js (Version >= 14.x) : Télécharger Node.js
+- npm (Gestionnaire de paquets pour Node.js) : Il est normalement installé avec Node.js.
+- Git : Télécharger Git
 
-See [Vite Configuration Reference](https://vite.dev/config/).
 
-## Project Setup
 
-```sh
-npm install
+
+## Technologies utilisées
+
+**Client :** Vue, Pinia, Vue Router, Bootstrap
+
+**Server :** Laravel, 
+
+
+## Installation
+
+Installer ou clôner le projet avec npm
+```bash
+  npm install https://github.com/djamioufadebi/task_frontend.git
+  cd task_frontend
 ```
 
-### Compile and Hot-Reload for Development
+## Installation des dépendance avec npm :
 
-```sh
-npm run dev
+Installer le projet avec npm
+```bash
+  npm install
 ```
 
-### Compile and Minify for Production
+## Lancer l'application
 
-```sh
-npm run build
+ ### Lancer en mode développement avec un serveur local
+```bash
+  npm run dev
 ```
+ ### Lancer en mode production
+```bash
+  npm run build
+  npm run start
+```
+    
+## exécuter les tests unitaoires
+
+Pour exécuter des tests, exécutez la commande suivante
+```bash
+  npm run test
+```
+
+
+## Feedback
+Si vous avez des commentaires, veuillez nous contacter sur djamioufadebi@gmail.com
+
+
+## Auteur
+
+- [@djamioufadebi](https://www.github.com/djamioufadebi)
+
